@@ -15,7 +15,9 @@ public class User {
     private Integer id;
     private String username;
     private String Role;
+    private String Password;
     private String email;
     @OneToMany(fetch = FetchType.LAZY)
+    @Transient
     private List<Documents> documents;
 }

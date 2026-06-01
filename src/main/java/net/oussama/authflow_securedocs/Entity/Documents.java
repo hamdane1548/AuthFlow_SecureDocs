@@ -16,5 +16,6 @@ public class Documents {
     private String content;
     private Integer ownerId;
     @ManyToOne
+    @Transient
     private User owner;
 }
