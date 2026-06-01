@@ -1,0 +1,7 @@
+spring.application.name=AuthFlow_SecureDocs
+spring.datasource.username=root
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=update
+spring.datasource.url=jdbc:mysql://localhost:3305/AuthFlow_SecureDocs
+spring.security.user.password=root
+
