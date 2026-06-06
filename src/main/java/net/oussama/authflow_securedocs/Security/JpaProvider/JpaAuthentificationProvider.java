@@ -24,7 +24,6 @@ public class JpaAuthentificationProvider implements AuthenticationProvider {
         UserDetails userDetails = userDetailsimpl.loadUserByUsername(username);
         if (userDetails != null) {
             if(passwordEncoder.matches(password, userDetails.getPassword())) {
-                System.out.println("user found");
                 return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
             }
         }

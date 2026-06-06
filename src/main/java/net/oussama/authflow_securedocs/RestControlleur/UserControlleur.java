@@ -1,9 +1,11 @@
 package net.oussama.authflow_securedocs.RestControlleur;
 
 import lombok.AllArgsConstructor;
+import net.oussama.authflow_securedocs.Dto.ErrorResponeDto;
 import net.oussama.authflow_securedocs.Dto.LoginDto;
 import net.oussama.authflow_securedocs.Dto.SuccessReponse;
 import net.oussama.authflow_securedocs.Entity.User;
+import net.oussama.authflow_securedocs.Services.JwtServices;
 import net.oussama.authflow_securedocs.Services.ServicesUser;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ import java.time.LocalDateTime;
 @RestController
 @AllArgsConstructor
 public class UserControlleur {
+    private final JwtServices jwtServices;
     private ServicesUser servicesUser;
     @PostMapping("/register")
     public ResponseEntity<Object> registerUser(@RequestBody User user) {
@@ -37,10 +40,29 @@ public class UserControlleur {
         }
     };
     @PostMapping("/login")
-    public  Authentication loginUser(@RequestBody LoginDto loginDto) {
+    public  ResponseEntity<Object> loginUser(@RequestBody LoginDto loginDto) {
         //System.out.println(loginDto);
         Authentication authentication= servicesUser.loginUser(loginDto.getUsername(),  loginDto.getPassword());
-        return authentication;
+        if(authentication.isAuthenticated()){
+            String token = jwtServices.generateToken(authentication);
+            return  ResponseEntity.status(HttpStatus.OK)
+                    .header("Authorization", "Bearer "+token)
+                    .body(
+                    SuccessReponse.builder()
+                            .message("User logged successfully")
+                            .status(HttpStatus.OK)
+                            .timestamp(LocalDateTime.now())
+                            .build()
+            );
+        }
+        return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                ErrorResponeDto.builder()
+                        .message("Invalid username or password")
+                        .status(HttpStatus.UNAUTHORIZED)
+                        .timestamp(LocalDateTime.now())
+                        .path("/login")
+                        .build()
+        );
     }
     @GetMapping("/test")
     public ResponseEntity<String> test() {

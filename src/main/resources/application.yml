@@ -11,3 +11,5 @@ spring:
     show-sql: true
 server:
   port: 8084
+secret:
+  key : "90bdbc4db27422d7f89a00f6da85227d45c5aecc8f8382e83a7cd38fa8a3faa4"
