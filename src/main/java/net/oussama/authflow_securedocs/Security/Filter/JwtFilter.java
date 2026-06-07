@@ -4,15 +4,20 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import net.oussama.authflow_securedocs.Services.JwtServices;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-@RequiredArgsConstructor
+import java.util.Date;
+
+@Component
 public class JwtFilter extends OncePerRequestFilter {
     private JwtServices jwtServices;
+    public JwtFilter(JwtServices jwtServices) {
+        this.jwtServices = jwtServices;
+    }
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
       String auth = request.getHeader("Authorization");
@@ -23,7 +28,14 @@ public class JwtFilter extends OncePerRequestFilter {
           username  = jwtServices.DecodeToken(token);
       }
       if(username !=null && SecurityContextHolder.getContext().getAuthentication()==null) {
-
+          String test = jwtServices.DecodeToken(token);
+          Boolean check_if_valide = jwtServices.validateToken(token);
+          if(check_if_valide) {
+              System.out.println("test"+test);
+          }
       }
+        filterChain.doFilter(request,response);
     }
+
+
 }

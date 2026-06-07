@@ -1,9 +1,11 @@
 package net.oussama.authflow_securedocs.Security;
 
+import lombok.AllArgsConstructor;
 import net.oussama.authflow_securedocs.Exception.SecurityExceptoin.CustomAccessDeniedHandler;
 import net.oussama.authflow_securedocs.Exception.SecurityExceptoin.CustomEntrypoin;
 import net.oussama.authflow_securedocs.Security.Filter.HeaderResponse;
 import net.oussama.authflow_securedocs.Security.Filter.JwtFilter;
+import net.oussama.authflow_securedocs.Services.JwtServices;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,7 +22,9 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import java.util.List;
 
 @Configuration
+@AllArgsConstructor
 public class SecurityFilterChainconfig {
+    private JwtServices jwtFilter;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -31,6 +35,7 @@ public class SecurityFilterChainconfig {
      http.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
       http.addFilterAt(new HeaderResponse(), UsernamePasswordAuthenticationFilter.class);
+      http.addFilterBefore(new JwtFilter(jwtFilter), UsernamePasswordAuthenticationFilter.class);
       http.cors(customize -> {
           CorsConfigurationSource config = request -> {
               CorsConfiguration cors = new CorsConfiguration();
