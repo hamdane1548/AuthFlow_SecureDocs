@@ -25,6 +25,7 @@ import java.util.List;
 @AllArgsConstructor
 public class SecurityFilterChainconfig {
     private JwtServices jwtFilter;
+    private AuthenticationConfiguration authenticationConfiguration;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -35,7 +36,7 @@ public class SecurityFilterChainconfig {
      http.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
       http.addFilterAt(new HeaderResponse(), UsernamePasswordAuthenticationFilter.class);
-      http.addFilterBefore(new JwtFilter(jwtFilter), UsernamePasswordAuthenticationFilter.class);
+      http.addFilterBefore(new JwtFilter(this.authenticationManager(authenticationConfiguration),jwtFilter), UsernamePasswordAuthenticationFilter.class);
       http.cors(customize -> {
           CorsConfigurationSource config = request -> {
               CorsConfiguration cors = new CorsConfiguration();

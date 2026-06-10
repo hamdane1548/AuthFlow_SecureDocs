@@ -1,4 +1,4 @@
-package net.oussama.authflow_securedocs.Security.JpaProvider;
+package net.oussama.authflow_securedocs.Security.Provider;
 
 import lombok.AllArgsConstructor;
 import net.oussama.authflow_securedocs.Security.UserDetailsServices.UserDetailsServicesDataBase;

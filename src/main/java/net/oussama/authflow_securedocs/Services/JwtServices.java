@@ -2,9 +2,11 @@ package net.oussama.authflow_securedocs.Services;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import net.oussama.authflow_securedocs.Exception.Jwt;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -45,13 +47,16 @@ public class JwtServices {
           }
         return false;
     }
-    public String DecodeToken(String token) {
-        return Jwts.parser()
-                .verifyWith((SecretKey) getSigningKey()).build()
-                .parseSignedClaims(token)
-                .getPayload()
-                .getSubject();
-
+    public String DecodeToken(String token){
+       try {
+           return Jwts.parser()
+                   .verifyWith((SecretKey) getSigningKey()).build()
+                   .parseSignedClaims(token)
+                   .getPayload()
+                   .getSubject();
+       }catch (JwtException e){
+             throw new JwtException("tkone not valide");
+       }
     }
 
 

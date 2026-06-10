@@ -1,5 +1,6 @@
 package net.oussama.authflow_securedocs.Exception;
 
+import io.jsonwebtoken.JwtException;
 import net.oussama.authflow_securedocs.Dto.ErrorResponeDto;
 import net.oussama.authflow_securedocs.Exception.SecurityExceptoin.CustomAccessDeniedHandler;
 import net.oussama.authflow_securedocs.Exception.SecurityExceptoin.CustomEntrypoin;
