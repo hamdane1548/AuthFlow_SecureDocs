@@ -9,7 +9,7 @@ This project follows a **layered architecture** and best practices to ensure **s
 
 > The system architecture is illustrated below:
 
-<img width="1536" height="1024" alt="arch" src="https://github.com/user-attachments/assets/59ef7d35-fcc5-4a90-86e0-652453b7574f" />
+<img width="2005" height="982" alt="Screenshot 2026-06-12 002152" src="https://github.com/user-attachments/assets/b3e36955-989a-4da6-8ce4-1b251314bd81" />
 
 ---
 
